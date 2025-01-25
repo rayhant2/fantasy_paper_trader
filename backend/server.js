@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+
 const stocksRouter = require("./routes/stocks");
+const cryptoRouter = require("./routes/crypto");
 
 app.use(express.json());
 
@@ -12,6 +14,6 @@ app.get("/", async (req, res, next) => {
 });
 
 app.use("/api/stocks", stocksRouter);
-app.use("/api/crypto", require("./routes/crypto"));
+app.use("/api/crypto", cryptoRouter);
 
 app.listen(PORT, () => console.log(`@ http://localhost:${PORT}`));
