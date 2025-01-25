@@ -2,7 +2,7 @@ const router = require("express").Router();
 const axios = require("axios");
 const apikey = process.env.ALPHA_VANTAGE_API_KEY;
 
-router.get("/stockinfo", async (req, res, next) => {
+router.get("/stock", async (req, res, next) => {
   const symbol = req.query.symbol;
   const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=${apikey}`;
   try {
