@@ -129,11 +129,9 @@ router.post("/set-portfolio", authenticate, async (req, res) => {
         return res.status(400).json({ error: "Invalid portfolio" });
     }
     if (portfolioData.initialFunding > league.fundingLimit) {
-        return res
-            .status(400)
-            .json({
-                error: "Portfolio initial funding exceeds league funding limit",
-            });
+        return res.status(400).json({
+            error: "Portfolio initial funding exceeds league funding limit",
+        });
     }
     const portfolio = new Portfolio(
         portfolioData.portfolioId,
@@ -197,8 +195,8 @@ router.post("/leave", authenticate, async (req, res) => {
     res.status(200).json({ message: "Left league successfully" });
 });
 
-router.get("/leaderboard/:leagueId", authenticate, async (req, res) => {
-    const { leagueId } = req.params;
+router.post("/leaderboard", authenticate, async (req, res) => {
+    const { leagueId } = req.body;
     const league = await League.findById(leagueId);
     if (!league) {
         return res.status(404).json({ error: "League not found" });
@@ -214,8 +212,20 @@ router.get("/leaderboard/:leagueId", authenticate, async (req, res) => {
             const leagueEntry = user.leagues.find(([id]) => id === leagueId);
             if (leagueEntry) {
                 const portfolioId = leagueEntry[1];
-                const portfolio = await Portfolio.findById(portfolioId);
-                if (portfolio) {
+                const portfolioData = await Portfolio.findById(portfolioId);
+                if (portfolioData) {
+                    const portfolio = new Portfolio(
+                        portfolioData.portfolioId,
+                        portfolioData.userId,
+                        portfolioData.name,
+                        portfolioData.stocks,
+                        portfolioData.cryptos,
+                        portfolioData.initialFunding,
+                        portfolioData.transactions,
+                        portfolioData.usedIn,
+                        portfolioData.netWorth
+                    );
+                    await portfolio.updateNetWorth(); // Ensure netWorth is updated
                     return {
                         userId: user.userId,
                         displayName: user.displayName,
