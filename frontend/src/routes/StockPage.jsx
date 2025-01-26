@@ -6,6 +6,7 @@ import { cryptos } from "../data/cryptos";
 
 function StockPage() {
     const [data, setData] = useState([]);
+    const [mode, setModes] = useState("stocks");
     const [stockList, setStockList] = useState(stocks);
 
     useEffect(() => {
@@ -19,6 +20,7 @@ function StockPage() {
     const setStocks = (stocksName) => {
         if (data && data[stocksName]) {
             setStockList(data[stocksName]);
+            setModes(stocksName);
             return;
         }
         console.error("Stocks not found");
@@ -29,16 +31,20 @@ function StockPage() {
             <div>
                 <Navbar />
                 <h1>Stock Page</h1>
-                <div className="flex justify-start px-12 py-4">
+                <div className="flex justify-start px-12 py-4 gap-4">
                     <button
                         onClick={() => setStocks("stocks")}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className={`hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                            mode == "stocks" ? "bg-blue-700" : "bg-blue-100"
+                        }`}
                     >
                         Stocks
                     </button>
                     <button
                         onClick={() => setStocks("cryptos")}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className={`hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                            mode == "cryptos" ? "bg-blue-700" : "bg-blue-100"
+                        }`}
                     >
                         Cryptos
                     </button>
