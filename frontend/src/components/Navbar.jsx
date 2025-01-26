@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
     return (
-        <div className="w-[100%] px-4">
+        <div className="w-[100%] px-8">
             <div className="flex flex-row justify-between items-center mt-4">
                 {/* Left-aligned "Home" link */}
                 <div>
