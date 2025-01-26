@@ -8,6 +8,7 @@ import stocksRouter from "./routes/stocks.js";
 import cryptoRouter from "./routes/crypto.js";
 import authRouter from "./routes/auth.js";
 import leagueRouter from "./routes/league.js";
+import portfolioRouter from "./routes/portfolio.js";
 
 app.use(json());
 app.use(cors());
@@ -18,5 +19,6 @@ app.use("/api/stocks", stocksRouter);
 app.use("/api/crypto", cryptoRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/league", leagueRouter);
+app.use("/api/portfolio", portfolioRouter);
 
 app.listen(PORT, () => console.log(`@ http://localhost:${PORT}`));
