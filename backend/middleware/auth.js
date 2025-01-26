@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
 const authenticate = async (req, res, next) => {
@@ -10,13 +9,13 @@ const authenticate = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
     try {
         const user = await User.findByAccessToken(token);
-        if (!user) {
-            return res.status(401).send("Invalid access token");
+        if (!user || user.email !== req.body.email) {
+            return res.status(401).send("Invalid access token or email");
         }
         req.user = user;
         next();
     } catch (error) {
-        return res.status(401).send("Invalid access token");
+        return res.status(401).send("Invalid access token or email");
     }
 };
 
