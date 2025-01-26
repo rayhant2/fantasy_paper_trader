@@ -5,17 +5,17 @@ import Chart from "../components/chart/Chart";
 
 const PortfolioPage = () => {
     const [name, setName] = useState("Tahseen");
-    const [balance, setBalance] = useState(120000);
+    const [balance, setBalance] = useState(1367.34);
     const [balanceMonthStart, setBalanceMonthStart] = useState(3000);
     const [timeInterval, setTimeInterval] = useState("month");
 
     const [strongest, setStrongest] = useState("NVDA");
-    const [strongestStart, setStrongestStart] = useState(20);
-    const [strongestEnd, setStrongestEnd] = useState(50);
+    const [strongestStart, setStrongestStart] = useState(200.75);
+    const [strongestEnd, setStrongestEnd] = useState(204.61);
 
-    const [weakest, setWeakest] = useState("TSLA");
-    const [weakestStart, setWeakestStart] = useState(100);
-    const [weakestEnd, setWeakestEnd] = useState(0);
+    const [weakest, setWeakest] = useState("SLSR");
+    const [weakestStart, setWeakestStart] = useState(3.10);
+    const [weakestEnd, setWeakestEnd] = useState(3.46);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedTicker, setSelectedTicker] = useState(""); // State to store the ticker
