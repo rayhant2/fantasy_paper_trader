@@ -16,7 +16,7 @@ function StockPreview({ dataSet }) {
                             className="size-12 flex-none rounded-full bg-gray-50"
                         />
                         <div className="min-w-0 flex-auto">
-                            <p className="text-sm/6 font-semibold text-gray-900">
+                            <p className="text-left text-sm/6 font-semibold text-gray-900">
                                 {data.name}
                             </p>
                             <p className="mt-1 truncate text-xs/5 text-gray-500">
@@ -25,7 +25,7 @@ function StockPreview({ dataSet }) {
                         </div>
                     </div>
                     <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                        <p className="text-sm/6 text-gray-900">{data.role}</p>
+                        <p className="text-sm/6 text-gray-900">${data.role}</p>
                         {data.lastSeen ? (
                             <p className="mt-1 text-xs/5 text-gray-500">
                                 Last seen{" "}
