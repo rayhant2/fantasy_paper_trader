@@ -1,6 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 let mongoClient = null;
 
@@ -19,6 +20,10 @@ const initialize = async () => {
     console.log("Connected to MongoDB");
 };
 
+const getCollection = (collectionName) => {
+    return mongoClient.db().collection(collectionName);
+};
+
 initialize();
 
-export { mongoClient, initialize };
+export { mongoClient, initialize, getCollection };
