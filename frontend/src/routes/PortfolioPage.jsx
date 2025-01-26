@@ -72,7 +72,7 @@ const PortfolioPage = () => {
             >
               <p className="text-s">Strongest Performer</p>
               <div className="flex flex-row items-center gap-2">
-                <p className="font-bold text-3xl">{strongest}</p>
+                <p className="font-bold text-3xl">${strongest}</p>
                 <p>{calculateReturn(strongestStart, strongestEnd)}</p>
               </div>
             </div>
@@ -83,18 +83,30 @@ const PortfolioPage = () => {
             >
               <p className="text-s">Weakest Performer</p>
               <div className="flex flex-row items-center gap-2">
-                <p className="font-bold text-3xl">{weakest}</p>
+                <p className="font-bold text-3xl">${weakest}</p>
                 <p>{calculateReturn(weakestStart, weakestEnd)}</p>
               </div>
             </div>
           </div>
 
           {/* Recent Transactions */}
+          <div className="flex flex-row gap-5 h-full">
+
           <div className="shadow-[inset_0_0_3px_5px_#F0F0F0] rounded-2xl p-3 flex-[0.8] text-left ">
             <p className="text-s font-medium ml-2 mt-2 mb-4 text-[#000000]">
-              Recent transactions:
+              Portfolio:
             </p>
           </div>
+
+          <div className="shadow-[inset_0_0_3px_5px_#F0F0F0] rounded-2xl p-3 flex-[0.8] text-left ">
+            <p className="text-s font-medium ml-2 mt-2 mb-4 text-[#000000]">
+              Recent Transactions:
+            </p>
+          </div>
+
+
+          </div>
+          
         </div>
 
         {/* Right Section */}
