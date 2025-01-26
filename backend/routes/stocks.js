@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get("/stock", async (req, res, next) => {
   const symbol = req.query.symbol;
-  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=${apiKey}`;
+  const interval = req.query.interval;
+  const url = `https://www.alphavantage.co/query?function=${interval}&symbol=${symbol}&interval=1min&apikey=${apiKey}`;
   try {
     const response = await axios.get(url);
     const data = response.data;
