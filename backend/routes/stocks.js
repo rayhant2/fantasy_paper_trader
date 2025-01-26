@@ -17,6 +17,19 @@ router.get("/stock", async (req, res, next) => {
   }
 });
 
+router.get("/stock-quote", async (req, res, next) => {
+  const symbol = req.query.symbol;
+  const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching stock quote", error);
+    res.status(500).json({ error: "Faile to fetch stock quote" });
+  }
+});
+
 router.get("/stock-news", async (req, res, next) => {
   const symbol = req.query.symbol;
   const url = `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${symbol}&apikey=${apiKey}`;
