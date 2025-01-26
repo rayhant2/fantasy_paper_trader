@@ -29,7 +29,7 @@ function StockPage() {
             <div>
                 <Navbar />
                 <h1>Stock Page</h1>
-                <div className="flex justify-start">
+                <div className="flex justify-start px-12 py-4">
                     <button
                         onClick={() => setStocks("stocks")}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -43,8 +43,8 @@ function StockPage() {
                         Cryptos
                     </button>
                 </div>
-                <div className="flex flex-row justify-center gap-x-6 w-screen h-[50%] px-12">
-                    <div className="w-[100%]">
+                <div className="flex flex-row justify-center gap-x-6 w-screen h-full px-12">
+                    <div className="w-[100%] h-[calc(100vh-200px)] shadow-inner shadow-[inset_0_0_3px_5px_#F0F0F0] p-6 rounded-xl ">
                         <PreviewStocks dataSet={stockList} />
                     </div>
                 </div>
