@@ -2,11 +2,12 @@
 import { stockHolding, cryptoHolding } from "./holdings.js";
 
 class Portfolio {
-  constructor(portfolioId, userId, stocks, cryptos) {
+  constructor(portfolioId, userId, stocks, cryptos, cash) {
     this.portfolioId = portfolioId;
     this.userId = userId;
     this.stocks = stocks;
     this.cryptos = cryptos;
+    this.cash = cash;
   }
 
   async getPortfolioValue() {
@@ -35,7 +36,7 @@ class Portfolio {
 
       totalValue += crypto.quantity * currentPrice;
     }
-    return totalValue;
+    return totalValue + this.cash;
   }
 
   isStockInPortfolio(symbol) {

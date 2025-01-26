@@ -1,7 +1,8 @@
-const router = require("express").Router();
-const axios = require("axios");
+import express from "express";
+const router = express.Router();
+import axios from "axios";
 const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
-const getWeekStartTime = require("../utils/dateUtils");
+//import getWeekStartTime from "../utils/dateUtils";
 
 router.get("/crypto", async (req, res, next) => {
   const cryptoCurrency = req.query.from;
@@ -33,4 +34,4 @@ router.get("/crypto-news", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

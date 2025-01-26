@@ -1,6 +1,7 @@
-const router = require("express").Router();
-const axios = require("axios");
+import express from "express";
 const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
+import axios from "axios";
+const router = express.Router();
 
 router.get("/stock", async (req, res, next) => {
   const symbol = req.query.symbol;
@@ -28,4 +29,4 @@ router.get("/stock-news", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

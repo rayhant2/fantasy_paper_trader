@@ -1,17 +1,14 @@
-require("dotenv").config();
-const express = require("express");
+import dotenv from "dotenv";
+dotenv.config();
+import express, { json } from "express";
 const app = express();
 
-const stocksRouter = require("./routes/stocks");
-const cryptoRouter = require("./routes/crypto");
+import stocksRouter from "./routes/stocks.js";
+import cryptoRouter from "./routes/crypto.js";
 
-app.use(express.json());
+app.use(json());
 
 const PORT = process.env.PORT;
-
-app.get("/", async (req, res, next) => {
-  res.send({ message: ("Server running on port:", PORT) });
-});
 
 app.use("/api/stocks", stocksRouter);
 app.use("/api/crypto", cryptoRouter);
