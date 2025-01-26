@@ -12,12 +12,12 @@ router.post("/create", authenticate, async (req, res) => {
     if (!leagueName || !fundingLimit) {
         return res
             .status(400)
-            .send("League name and funding limit are required");
+            .json({ error: "League name and funding limit are required" });
     }
     if (isNaN(fundingLimit) || fundingLimit <= 0) {
         return res
             .status(400)
-            .send("Funding limit must be a valid number of dollars");
+            .json({ error: "Funding limit must be a valid number of dollars" });
     }
     const leagueId = uuidv4();
     const accessCode = crypto.randomBytes(5).toString("hex");
@@ -39,13 +39,13 @@ router.post("/delete", authenticate, async (req, res) => {
     const collection = getCollection("leagues");
     const league = await collection.findOne({ leagueId });
     if (!league) {
-        return res.status(404).send("League not found");
+        return res.status(404).json({ error: "League not found" });
     }
     if (league.ownerId !== req.user.userId) {
-        return res.status(403).send("You do not own this league");
+        return res.status(403).json({ error: "You do not own this league" });
     }
     await collection.deleteOne({ leagueId });
-    res.status(200).send("League deleted successfully");
+    res.status(200).json({ message: "League deleted successfully" });
 });
 
 router.post("/join", authenticate, async (req, res) => {
@@ -53,10 +53,12 @@ router.post("/join", authenticate, async (req, res) => {
     const collection = getCollection("leagues");
     const league = await collection.findOne({ accessCode });
     if (!league) {
-        return res.status(404).send("League not found");
+        return res.status(404).json({ error: "League not found" });
     }
     if (league.participants.includes(req.user.userId)) {
-        return res.status(400).send("You have already joined this league");
+        return res
+            .status(400)
+            .json({ error: "You have already joined this league" });
     }
     league.participants.push(req.user.userId);
     await collection.updateOne(
@@ -73,7 +75,7 @@ router.post("/join", authenticate, async (req, res) => {
         req.user.accessToken
     );
     await user.save();
-    res.status(200).send("Joined league successfully");
+    res.status(200).json({ message: "Joined league successfully" });
 });
 
 router.post("/leave", authenticate, async (req, res) => {
@@ -81,13 +83,17 @@ router.post("/leave", authenticate, async (req, res) => {
     const collection = getCollection("leagues");
     const league = await collection.findOne({ leagueId });
     if (!league) {
-        return res.status(404).send("League not found");
+        return res.status(404).json({ error: "League not found" });
     }
     if (!league.participants.includes(req.user.userId)) {
-        return res.status(400).send("You are not a participant in this league");
+        return res
+            .status(400)
+            .json({ error: "You are not a participant in this league" });
     }
     if (league.ownerId === req.user.userId) {
-        return res.status(403).send("League owner cannot leave the league");
+        return res
+            .status(403)
+            .json({ error: "League owner cannot leave the league" });
     }
     league.participants = league.participants.filter(
         (id) => id !== req.user.userId
@@ -106,7 +112,7 @@ router.post("/leave", authenticate, async (req, res) => {
         req.user.accessToken
     );
     await user.save();
-    res.status(200).send("Left league successfully");
+    res.status(200).json({ message: "Left league successfully" });
 });
 
 export default router;
