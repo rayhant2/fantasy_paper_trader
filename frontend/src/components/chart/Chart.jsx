@@ -5,13 +5,13 @@ import { testData } from "./testData";
 import { candleStickOptions } from "./ChartOptions";
 
 const Chart = () => {
-  return (
-    <ReactApexChart
-      series={[{ data: formatStockData(testData) }]}
-      options={candleStickOptions}
-      type="candlestick"
-    ></ReactApexChart>
-  );
+    return (
+        <ReactApexChart
+            series={[{ data: formatStockData(testData) }]}
+            options={candleStickOptions}
+            type="candlestick"
+        />
+    );
 };
 
-export default Chart;
+export default React.memo(Chart);
