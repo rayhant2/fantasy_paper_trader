@@ -7,11 +7,11 @@ const PortfolioPage = () => {
     const [name, setName] = useState("Tahseen");
     const [balance, setBalance] = useState(1367.34);
     const [balanceMonthStart, setBalanceMonthStart] = useState(3000);
-    const [timeInterval, setTimeInterval] = useState("month");
+    const [timeInterval, setTimeInterval] = useState("year");
 
-    const [strongest, setStrongest] = useState("NVDA");
-    const [strongestStart, setStrongestStart] = useState(200.75);
-    const [strongestEnd, setStrongestEnd] = useState(204.61);
+    const [strongest, setStrongest] = useState("AAPL");
+    const [strongestStart, setStrongestStart] = useState(276.06);
+    const [strongestEnd, setStrongestEnd] = useState(319.61);
 
     const [weakest, setWeakest] = useState("SLSR");
     const [weakestStart, setWeakestStart] = useState(3.10);

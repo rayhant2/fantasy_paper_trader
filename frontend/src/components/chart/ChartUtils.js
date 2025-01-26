@@ -15,5 +15,5 @@ export const formatStockData = (stockData) => {
       }
     );
   }
-  return formattedData;
+  return formattedData.reverse();
 };

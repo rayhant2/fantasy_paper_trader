@@ -10,6 +10,8 @@ const Chart = () => {
             series={[{ data: formatStockData(testData) }]}
             options={candleStickOptions}
             type="candlestick"
+            width={500}
+            height={500}
         />
     );
 };

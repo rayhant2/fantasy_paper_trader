@@ -1,10 +1,16 @@
+import dayjs from "dayjs"
+
 export const candleStickOptions = {
     chart: {
-        height: 400,
+        height: 500,
+        width: 700,
+        
         type: "candlestick",
+        toolbar: {
+            show: false,
+        }
     },
     title: {
-        text: "Stock Chart",
         align: "left",
     },
     annotations: {
@@ -15,7 +21,7 @@ export const candleStickOptions = {
                 label: {
                     borderColor: "#00E396",
                     style: {
-                        fontSize: "12px",
+                        fontSize: "16px",
                         color: "#fff",
                         background: "#00E396",
                     },
@@ -26,16 +32,26 @@ export const candleStickOptions = {
             },
         ],
     },
+
+
+    
     tooltip: {
         enabled: true,
     },
     xaxis: {
-        type: "category",
+        type: "datetime",
         labels: {
-            formatter: function (val) {
-                return new Date(val);
+            formatter: (val) => {
+                return dayjs(val).format('YYYY MM')
             },
+            style: {
+                fontSize: '16px'
+            },
+            rotate: -30,
+            rotateAlways: true,
+            show: true,
         },
+        tickAmount: 3
     },
     yaxis: {
         tooltip: {
