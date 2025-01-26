@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import StockInfo from "../components/StockInfo";
+import Chart from "../components/chart/Chart";
 
 const PortfolioPage = () => {
   const [name, setName] = useState("Tahseen");
@@ -55,9 +56,7 @@ const PortfolioPage = () => {
             <div className="flex flex-row gap-2 ml-2 items-center">
               <div className="flex flex-row items-end gap-2">
                 <p className="text-[23px]">$</p>
-                <p className="font-bold text-3xl">
-                  {balance.toLocaleString()}
-                </p>
+                <p className="font-bold text-3xl">{balance.toLocaleString()}</p>
               </div>
               <p className="ml-0.5 flex flex-row items-center">
                 ({calculateReturn(balanceMonthStart, balance)} last{" "}
@@ -78,8 +77,10 @@ const PortfolioPage = () => {
               </div>
             </div>
 
-            <div onClick={() => handleOpenDialog(weakest)}
-              className="bg-[#fcd46a30] text-[#000000] hover:shadow-md rounded-2xl p-5 flex-1 transition-shadow duration-300 ease-in-out text-left">
+            <div
+              onClick={() => handleOpenDialog(weakest)}
+              className="bg-[#fcd46a30] text-[#000000] hover:shadow-md rounded-2xl p-5 flex-1 transition-shadow duration-300 ease-in-out text-left"
+            >
               <p className="text-s">Weakest Performer</p>
               <div className="flex flex-row items-center gap-2">
                 <p className="font-bold text-3xl">{weakest}</p>
@@ -98,7 +99,9 @@ const PortfolioPage = () => {
 
         {/* Right Section */}
         <div className="bg-[#fcd46a30] hover:shadow-md rounded-2xl m-5 w-1/2 flex items-center justify-center transition-shadow duration-300 ease-in-out">
-          <h1 className="text-[#000000]">Graph Goes Here</h1>
+          <h1 className="text-[#000000]">
+            <Chart></Chart>
+          </h1>
         </div>
       </div>
 
