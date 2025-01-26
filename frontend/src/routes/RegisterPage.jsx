@@ -5,13 +5,11 @@ import Registration from "../components/Registration";
 const RegisterPage = () => {
   return (
     <>
-    <div><Navbar /></div>
-      <div>
-        <Registration/>
-
-
-
-
+    <div className="w-screen">
+      <div><Navbar /></div>
+        <div>
+          <Registration/>
+        </div>
       </div>
 
 

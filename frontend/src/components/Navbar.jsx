@@ -25,9 +25,6 @@ const Navbar = () => {
                 {/* Right-aligned links */}
                 <div className="flex flex-row gap-5">
                     <p>
-                        <Link to="/register">Register Page</Link>
-                    </p>
-                    <p>
                         <Link to="/login">Login Page</Link>
                     </p>
                     <p>
