@@ -1,5 +1,6 @@
 #root {
     text-align: center;
+    scrollbar-gutter: stable both-edges;
 }
 
 .logo {
