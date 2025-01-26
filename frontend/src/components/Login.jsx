@@ -1,16 +1,30 @@
 import { Link } from "react-router-dom";
+import React, {useState} from "react";
 
 export default function Login() {
+
+    const [userEmail, setUserEmail] = useState("");
+    const [userPass, setUserPass] = useState("");
+
+    const handleEmailChange = (event) => {
+        setUserEmail(event.target.value);
+    };
+
+    const handlePassChange = (event) => {
+        setUserPass(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("Email:", userEmail);
+        console.log("Password:", userPass);
+        // Add your form submission logic here
+      };
+
+
     return (
         <>
-            {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full">
-          ```
-        */}
+
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img
@@ -24,7 +38,7 @@ export default function Login() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="flex flex-col items-start">
                             <label
                                 htmlFor="email"
@@ -37,6 +51,8 @@ export default function Login() {
                                     id="email"
                                     name="email"
                                     type="email"
+                                    value={userEmail}
+                                    onChange={handleEmailChange}
                                     required
                                     autoComplete="email"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
@@ -58,6 +74,8 @@ export default function Login() {
                                     id="password"
                                     name="password"
                                     type="password"
+                                    value={userPass}
+                                    onChange={handlePassChange}
                                     required
                                     autoComplete="current-password"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
