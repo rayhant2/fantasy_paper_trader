@@ -58,13 +58,23 @@ router.post("/delete", authenticate, async (req, res) => {
     if (portfolio.userId !== req.user.userId) {
         return res.status(403).json({ error: "You do not own this portfolio" });
     }
+    // Remove portfolioId from corresponding leagues
+    const leagues = await Promise.all(
+        portfolio.usedIn.map(async (leagueId) => {
+            const league = await League.findById(leagueId);
+            league.participants = league.participants.filter(
+                (id) => id !== req.user.userId
+            );
+            await league.save();
+        })
+    );
     await Portfolio.deleteById(portfolioId);
     const user = new User(
         req.user.userId,
         req.user.displayName,
         req.user.email,
         req.user.password,
-        req.user.leagues,
+        req.user.leagues.filter(([id, pid]) => pid !== portfolioId),
         req.user.portfolios.filter((id) => id !== portfolioId),
         req.user.accessToken
     );

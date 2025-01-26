@@ -9,7 +9,8 @@ class Portfolio {
         stocks,
         cryptos,
         cash,
-        transactions = []
+        transactions = [],
+        usedIn = []
     ) {
         this.portfolioId = portfolioId;
         this.userId = userId;
@@ -18,6 +19,7 @@ class Portfolio {
         this.cryptos = cryptos;
         this.cash = cash;
         this.transactions = transactions;
+        this.usedIn = usedIn;
     }
 
     async getPortfolioValue() {

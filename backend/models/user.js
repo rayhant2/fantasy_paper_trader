@@ -37,6 +37,11 @@ class User {
         const collection = getCollection("users");
         return await collection.findOne({ accessToken });
     }
+
+    static async findById(userId) {
+        const collection = getCollection("users");
+        return await collection.findOne({ userId });
+    }
 }
 
 export default User;
