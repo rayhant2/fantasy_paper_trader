@@ -1,6 +1,9 @@
 function StockPreview({ dataSet }) {
     return (
-        <ul role="list" className="overflow-auto flex flex-col gap-6 h-[90%]">
+        <ul
+            role="list"
+            className="overflow-auto flex flex-col gap-6 h-[90%] no-scrollbar"
+        >
             {dataSet.map((data, index) => (
                 <li
                     key={index} //person.email

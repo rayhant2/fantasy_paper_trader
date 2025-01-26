@@ -13,7 +13,7 @@ const Navbar = () => {
                             className="flex flex-row items-center gap-2"
                         >
                             <img
-                                src="/vite.svg"
+                                src="/icon.svg"
                                 alt="Clickable Image"
                                 className="w-8 h-8"
                             />
