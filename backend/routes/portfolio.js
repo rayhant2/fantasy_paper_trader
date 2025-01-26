@@ -4,6 +4,8 @@ import { getCollection } from "../utils/mongoDBUtil.js";
 import authenticate from "../middleware/auth.js";
 import Portfolio from "../models/portfolio.js";
 import User from "../models/user.js";
+import League from "../models/league.js"; // Import League model
+import { getCurrentPrice } from "./stocks.js";
 
 const router = express.Router();
 
@@ -61,11 +63,21 @@ router.post("/delete", authenticate, async (req, res) => {
     // Remove portfolioId from corresponding leagues
     const leagues = await Promise.all(
         portfolio.usedIn.map(async (leagueId) => {
-            const league = await League.findById(leagueId);
-            league.participants = league.participants.filter(
-                (id) => id !== req.user.userId
-            );
-            await league.save();
+            const leagueData = await League.findById(leagueId);
+            if (leagueData) {
+                const league = new League(
+                    leagueData.leagueId,
+                    leagueData.name,
+                    leagueData.fundingLimit,
+                    leagueData.accessCode,
+                    leagueData.ownerId,
+                    leagueData.participants
+                );
+                league.participants = league.participants.filter(
+                    (id) => id !== req.user.userId
+                );
+                await league.save();
+            }
         })
     );
     await Portfolio.deleteById(portfolioId);
@@ -96,17 +108,25 @@ router.post("/buy", authenticate, async (req, res) => {
     if (portfolioData.userId !== req.user.userId) {
         return res.status(403).json({ error: "You do not own this portfolio" });
     }
+    const currentPrice = await getCurrentPrice(symbol);
+    const totalCost = currentPrice * shares;
+    if (totalCost > portfolioData.netWorth) {
+        return res.status(400).json({ error: "Insufficient funds" });
+    }
     const portfolio = new Portfolio(
         portfolioData.portfolioId,
         portfolioData.userId,
         portfolioData.name,
         portfolioData.stocks,
         portfolioData.cryptos,
-        portfolioData.cash,
-        portfolioData.transactions
+        portfolioData.initialFunding,
+        portfolioData.transactions,
+        portfolioData.usedIn,
+        portfolioData.netWorth - totalCost
     );
     portfolio.addStockHolding(symbol, shares);
-    portfolio.addTransaction("buy", symbol, shares);
+    portfolio.addTransaction("buy", symbol, shares, currentPrice);
+    portfolio.updateNetWorth();
     await portfolio.save();
     res.status(200).json({ message: "Stock purchased successfully" });
 });
@@ -125,20 +145,25 @@ router.post("/sell", authenticate, async (req, res) => {
     if (portfolioData.userId !== req.user.userId) {
         return res.status(403).json({ error: "You do not own this portfolio" });
     }
+    const currentPrice = await getCurrentPrice(symbol);
+    const totalValue = currentPrice * shares;
     const portfolio = new Portfolio(
         portfolioData.portfolioId,
         portfolioData.userId,
         portfolioData.name,
         portfolioData.stocks,
         portfolioData.cryptos,
-        portfolioData.cash,
-        portfolioData.transactions
+        portfolioData.initialFunding,
+        portfolioData.transactions,
+        portfolioData.usedIn,
+        portfolioData.netWorth + totalValue
     );
     if (!portfolio.canSellStock(symbol, shares)) {
         return res.status(400).json({ error: "Not enough shares to sell" });
     }
     portfolio.removeStockHolding(symbol, shares);
-    portfolio.addTransaction("sell", symbol, shares);
+    portfolio.addTransaction("sell", symbol, shares, currentPrice);
+    portfolio.updateNetWorth();
     await portfolio.save();
     res.status(200).json({ message: "Stock sold successfully" });
 });

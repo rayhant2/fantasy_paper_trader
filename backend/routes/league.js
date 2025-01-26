@@ -6,6 +6,7 @@ import authenticate from "../middleware/auth.js";
 import User from "../models/user.js";
 import Portfolio from "../models/portfolio.js";
 import League from "../models/league.js";
+import { getCurrentPrice } from "./stocks.js";
 
 const router = express.Router();
 
@@ -69,7 +70,7 @@ router.post("/delete", authenticate, async (req, res) => {
                         portfolioData.name,
                         portfolioData.stocks,
                         portfolioData.cryptos,
-                        portfolioData.cash,
+                        portfolioData.initialFunding,
                         portfolioData.transactions,
                         portfolioData.usedIn
                     );
@@ -127,13 +128,20 @@ router.post("/set-portfolio", authenticate, async (req, res) => {
     if (!portfolioData || portfolioData.userId !== req.user.userId) {
         return res.status(400).json({ error: "Invalid portfolio" });
     }
+    if (portfolioData.initialFunding > league.fundingLimit) {
+        return res
+            .status(400)
+            .json({
+                error: "Portfolio initial funding exceeds league funding limit",
+            });
+    }
     const portfolio = new Portfolio(
         portfolioData.portfolioId,
         portfolioData.userId,
         portfolioData.name,
         portfolioData.stocks,
         portfolioData.cryptos,
-        portfolioData.cash,
+        portfolioData.initialFunding,
         portfolioData.transactions,
         portfolioData.usedIn
     );
@@ -208,14 +216,10 @@ router.get("/leaderboard/:leagueId", authenticate, async (req, res) => {
                 const portfolioId = leagueEntry[1];
                 const portfolio = await Portfolio.findById(portfolioId);
                 if (portfolio) {
-                    const portfolioValue = portfolio.stocks.reduce(
-                        (acc, stock) => acc + stock.quantity * 10,
-                        0
-                    );
                     return {
                         userId: user.userId,
                         displayName: user.displayName,
-                        portfolioValue,
+                        netWorth: portfolio.netWorth,
                     };
                 }
             }
@@ -223,7 +227,7 @@ router.get("/leaderboard/:leagueId", authenticate, async (req, res) => {
         })
     );
     const filteredUsers = users.filter((user) => user !== null);
-    filteredUsers.sort((a, b) => b.portfolioValue - a.portfolioValue);
+    filteredUsers.sort((a, b) => b.netWorth - a.netWorth);
     res.status(200).json(filteredUsers);
 });
 

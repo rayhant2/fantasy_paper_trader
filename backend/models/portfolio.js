@@ -1,5 +1,6 @@
 import { getCollection } from "../utils/mongoDBUtil.js";
 import { stockHolding, cryptoHolding } from "./holdings.js";
+import { getCurrentPrice } from "../routes/stocks.js";
 
 class Portfolio {
     constructor(
@@ -8,47 +9,39 @@ class Portfolio {
         name,
         stocks,
         cryptos,
-        cash,
+        initialFunding,
         transactions = [],
-        usedIn = []
+        usedIn = [],
+        netWorth = initialFunding
     ) {
         this.portfolioId = portfolioId;
         this.userId = userId;
         this.name = name;
         this.stocks = stocks;
         this.cryptos = cryptos;
-        this.cash = cash;
+        this.initialFunding = initialFunding; // Initial funding amount
         this.transactions = transactions;
         this.usedIn = usedIn;
+        this.netWorth = netWorth;
     }
 
     async getPortfolioValue() {
         let totalValue = 0;
 
-        for (const stock in this.stocks) {
-            const currentPrice = await db.StockPrice.findOne({
-                symbol: stock.symbol,
-            });
-            if (!currentPrice) {
-                console.error(`Stock price not found for ${stock.symbol}`);
-                continue;
-            }
-
+        for (const stock of this.stocks) {
+            const currentPrice = await getCurrentPrice(stock.symbol);
             totalValue += stock.quantity * currentPrice;
         }
 
-        for (const crypto in this.cryptos) {
-            const currentPrice = await db.StockPrice.findOne({
-                symbol: crypto.symbol,
-            });
-            if (!currentPrice) {
-                console.error(`Exchange rate not found for ${crypto.symbol}`);
-                continue;
-            }
-
+        for (const crypto of this.cryptos) {
+            const currentPrice = await getCurrentPrice(crypto.symbol);
             totalValue += crypto.quantity * currentPrice;
         }
-        return totalValue + this.cash;
+        return totalValue + this.initialFunding;
+    }
+
+    async updateNetWorth() {
+        this.netWorth = await this.getPortfolioValue();
     }
 
     isStockInPortfolio(symbol) {
@@ -116,14 +109,16 @@ class Portfolio {
         }
     }
 
-    addTransaction(type, symbol, shares) {
+    addTransaction(type, symbol, shares, price) {
         const remainingShares =
             this.stocks.find((stock) => stock.symbol === symbol)?.quantity || 0;
         this.transactions.push({
             type,
             symbol,
             shares,
+            price,
             remainingShares,
+            netWorth: this.netWorth,
             date: new Date().getTime(),
         });
     }
