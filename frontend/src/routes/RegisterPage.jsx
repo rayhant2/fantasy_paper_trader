@@ -1,12 +1,19 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import Registration from "../components/Registration";
 
 const RegisterPage = () => {
   return (
-    <div>
-      <h1>Register Page</h1>
-      <Navbar />
-    </div>
+    <>
+    <div className="w-screen">
+      <div><Navbar /></div>
+        <div>
+          <Registration/>
+        </div>
+      </div>
+
+
+    </>
   );
 };
 
