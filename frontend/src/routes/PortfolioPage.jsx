@@ -36,10 +36,10 @@ const PortfolioPage = () => {
   return (
     <div className="w-screen h-screen flex flex-col">
       <Navbar />
-      <p className="text-left text-3xl mt-7 mx-8">Hello, {name}.</p>
+      <p className="text-left text-3xl mt-7 mx-8 text-[#000000]">Hello, {name}.</p>
 
       <div className="flex flex-row w-screen h-screen p-3">
-  {/* Left Section */}
+  
   <div className="flex flex-col gap-5 my-5 ml-5 w-1/2">
     <div className="text-[#000000] bg-[#fcd46a30] hover:shadow-md rounded-2xl p-4 flex-[0.2] transition-shadow duration-300 ease-in-out text-left items-center">
       <p className="text-s ml-2">Balance</p>
@@ -53,7 +53,7 @@ const PortfolioPage = () => {
       
     </div>
 
-    {/* Best/Worst Performing Stock */}
+    
     <div className="flex flex-row gap-6">
       <div className="bg-[#fcd46a30] text-[#000000] hover:shadow-md rounded-2xl p-5 flex-1 transition-shadow duration-300 ease-in-out text-left">
         <p className="text-s">Strongest Performer</p>
