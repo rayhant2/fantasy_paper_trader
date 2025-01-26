@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>API Documentation</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            h1,
+            h2,
+            h3 {
+                color: #333;
+            }
+            .endpoint {
+                margin-bottom: 20px;
+            }
+            .endpoint h3 {
+                margin-bottom: 5px;
+            }
+            .endpoint pre {
+                background: #f4f4f4;
+                padding: 10px;
+                border: 1px solid #ddd;
+                overflow-x: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>API Documentation</h1>
+
+        <div class="endpoint">
+            <h2>Stocks</h2>
+            <h3>GET /api/stocks/stock</h3>
+            <p>Fetch stock information.</p>
+            <pre>
+Query Parameters:
+- symbol: string (required)
+
+Response:
+- JSON object containing stock data
+
+Sample Input:
+{
+    "symbol": "AAPL"
+}
+
+Sample Output:
+{
+    "Meta Data": {
+        "1. Information": "Intraday (1min) open, high, low, close prices and volume",
+        "2. Symbol": "AAPL",
+        "3. Last Refreshed": "2023-10-10 16:00:00",
+        "4. Interval": "1min",
+        "5. Output Size": "Compact",
+        "6. Time Zone": "US/Eastern"
+    },
+    "Time Series (1min)": {
+        "2023-10-10 16:00:00": {
+            "1. open": "142.00",
+            "2. high": "142.10",
+            "3. low": "141.90",
+            "4. close": "142.00",
+            "5. volume": "1000"
+        }
+        // ...more data...
+    }
+}
+        </pre
+            >
+        </div>
+
+        <div class="endpoint">
+            <h2>Crypto</h2>
+            <h3>GET /api/crypto/crypto</h3>
+            <p>Fetch cryptocurrency exchange rate.</p>
+            <pre>
+Query Parameters:
+- from: string (required)
+- to: string (required)
+
+Response:
+- JSON object containing exchange rate data
+
+Sample Input:
+{
+    "from": "BTC",
+    "to": "USD"
+}
+
+Sample Output:
+{
+    "Realtime Currency Exchange Rate": {
+        "1. From_Currency Code": "BTC",
+        "2. From_Currency Name": "Bitcoin",
+        "3. To_Currency Code": "USD",
+        "4. To_Currency Name": "United States Dollar",
+        "5. Exchange Rate": "45000.00",
+        "6. Last Refreshed": "2023-10-10 16:00:00",
+        "7. Time Zone": "UTC",
+        "8. Bid Price": "44950.00",
+        "9. Ask Price": "45050.00"
+    }
+}
+        </pre
+            >
+
+            <h3>GET /api/crypto/crypto-news</h3>
+            <p>Fetch cryptocurrency news sentiment.</p>
+            <pre>
+Query Parameters:
+- from: string (required)
+- to: string (required)
+
+Response:
+- JSON object containing news sentiment data
+
+Sample Input:
+{
+    "from": "BTC",
+    "to": "USD"
+}
+
+Sample Output:
+{
+    "items": [
+        {
+            "title": "Bitcoin hits new high",
+            "url": "https://example.com/news/bitcoin-high",
+            "sentiment": "positive",
+            "publishedAt": "2023-10-10T16:00:00Z"
+        }
+        // ...more news items...
+    ]
+}
+        </pre
+            >
+        </div>
+
+        <div class="endpoint">
+            <h2>Auth</h2>
+            <h3>POST /api/auth/signup</h3>
+            <p>Register a new user.</p>
+            <pre>
+Request Body:
+- displayName: string (required)
+- email: string (required)
+- password: string (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "displayName": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "password123"
+}
+
+Sample Output:
+{
+    "message": "User registered successfully"
+}
+        </pre
+            >
+
+            <h3>POST /api/auth/login</h3>
+            <p>Login an existing user.</p>
+            <pre>
+Request Body:
+- email: string (required)
+- password: string (required)
+
+Response:
+- JSON object containing accessToken, displayName, and userId
+
+Sample Input:
+{
+    "email": "john.doe@example.com",
+    "password": "password123"
+}
+
+Sample Output:
+{
+    "accessToken": "abcdef123456",
+    "displayName": "John Doe",
+    "userId": "user-1234"
+}
+        </pre
+            >
+        </div>
+
+        <div class="endpoint">
+            <h2>League</h2>
+            <h3>POST /api/league/create</h3>
+            <p>Create a new league.</p>
+            <pre>
+Request Body:
+- leagueName: string (required)
+- fundingLimit: number (required)
+
+Response:
+- JSON object with a success message and leagueId
+
+Sample Input:
+{
+    "leagueName": "Fantasy League",
+    "fundingLimit": 100000
+}
+
+Sample Output:
+{
+    "message": "League created successfully",
+    "leagueId": "league-1234"
+}
+        </pre
+            >
+
+            <h3>POST /api/league/delete</h3>
+            <p>Delete an existing league.</p>
+            <pre>
+Request Body:
+- leagueId: string (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "leagueId": "league-1234"
+}
+
+Sample Output:
+{
+    "message": "League deleted successfully"
+}
+        </pre
+            >
+
+            <h3>POST /api/league/join</h3>
+            <p>Join an existing league.</p>
+            <pre>
+Request Body:
+- accessCode: string (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "accessCode": "abcdef1234"
+}
+
+Sample Output:
+{
+    "message": "Joined league successfully"
+}
+        </pre
+            >
+
+            <h3>POST /api/league/set-portfolio</h3>
+            <p>Set a portfolio for a league.</p>
+            <pre>
+Request Body:
+- leagueId: string (required)
+- portfolioId: string (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "leagueId": "league-1234",
+    "portfolioId": "portfolio-5678"
+}
+
+Sample Output:
+{
+    "message": "Portfolio set successfully"
+}
+        </pre
+            >
+
+            <h3>POST /api/league/leave</h3>
+            <p>Leave a league.</p>
+            <pre>
+Request Body:
+- leagueId: string (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "leagueId": "league-1234"
+}
+
+Sample Output:
+{
+    "message": "Left league successfully"
+}
+        </pre
+            >
+
+            <h3>POST /api/league/leaderboard</h3>
+            <p>Get the leaderboard for a league.</p>
+            <pre>
+Request Body:
+- leagueId: string (required)
+
+Response:
+- JSON array of users sorted by net worth
+
+Sample Input:
+{
+    "leagueId": "league-1234"
+}
+
+Sample Output:
+[
+    {
+        "userId": "user-1234",
+        "displayName": "John Doe",
+        "netWorth": 150000
+    },
+    {
+        "userId": "user-5678",
+        "displayName": "Jane Smith",
+        "netWorth": 140000
+    }
+    // ...more users...
+]
+        </pre
+            >
+        </div>
+
+        <div class="endpoint">
+            <h2>Portfolio</h2>
+            <h3>GET /api/portfolio/portfolio</h3>
+            <p>Fetch portfolio information.</p>
+            <pre>
+Query Parameters:
+- userId: string (required)
+
+Response:
+- JSON object containing portfolio data
+
+Sample Input:
+{
+    "userId": "user-1234"
+}
+
+Sample Output:
+{
+    "portfolioId": "portfolio-5678",
+    "userId": "user-1234",
+    "name": "My Portfolio",
+    "stocks": [
+        {
+            "symbol": "AAPL",
+            "quantity": 10
+        }
+        // ...more stocks...
+    ],
+    "cryptos": [
+        {
+            "symbol": "BTC",
+            "quantity": 1
+        }
+        // ...more cryptos...
+    ],
+    "initialFunding": 100000,
+    "transactions": [
+        {
+            "type": "buy",
+            "symbol": "AAPL",
+            "shares": 10,
+            "price": 150,
+            "remainingShares": 10,
+            "netWorth": 101500,
+            "date": 1634160000000
+        }
+        // ...more transactions...
+    ],
+    "usedIn": ["league-1234"],
+    "netWorth": 101500
+}
+        </pre
+            >
+
+            <h3>POST /api/portfolio/buy</h3>
+            <p>Buy stocks or cryptocurrencies.</p>
+            <pre>
+Request Body:
+- userId: string (required)
+- symbol: string (required)
+- quantity: number (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "userId": "user-1234",
+    "symbol": "AAPL",
+    "quantity": 10
+}
+
+Sample Output:
+{
+    "message": "Stock purchased successfully"
+}
+        </pre
+            >
+
+            <h3>POST /api/portfolio/sell</h3>
+            <p>Sell stocks or cryptocurrencies.</p>
+            <pre>
+Request Body:
+- userId: string (required)
+- symbol: string (required)
+- quantity: number (required)
+
+Response:
+- JSON object with a success message
+
+Sample Input:
+{
+    "userId": "user-1234",
+    "symbol": "AAPL",
+    "quantity": 5
+}
+
+Sample Output:
+{
+    "message": "Stock sold successfully"
+}
+        </pre
+            >
+        </div>
+    </body>
+</html>
